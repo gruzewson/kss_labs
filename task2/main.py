@@ -104,3 +104,33 @@ plt.show()
 plt.plot(traj_sol[:, 2])
 plt.title('Horizontal velocity $\dot{x}$');
 plt.show()
+
+# Number of steps in the trajectory
+N = 50
+
+# Initialize the trajectory
+traj_initial = initialize_state_trajectory(N)
+
+# Set a reasonable initial velocity
+# Estimate based on the target point (3, 1) and gravity for a parabolic arc
+initial_velocity_x = 10.0  # Example value in m/s
+initial_velocity_y = 15.0  # Example value in m/s
+
+# Apply the initial velocity to the first point in traj_initial
+traj_initial[0, 2] = initial_velocity_x
+traj_initial[0, 3] = initial_velocity_y
+
+# Solve the optimization with air drag and the initialized trajectory
+traj_sol, t_sol = solve_optimization(dynamics=canon_dynamics_with_drag, traj_initial=traj_initial)
+
+# Extract the x and y positions for plotting
+xy = traj_sol[:, :2]
+
+# Plot the trajectory
+plt.plot(xy[:, 0], xy[:, 1], label="Trajectory with Drag")
+plt.plot(xy[:, 0], xy[:, 1], 'o')
+plt.xlabel("x position (m)")
+plt.ylabel("y position (m)")
+plt.title("Projectile Trajectory with Air Drag")
+plt.legend()
+plt.show()
