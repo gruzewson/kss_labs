@@ -1,0 +1,1 @@
+FROM russtedrake/manipulation:1a45f32
